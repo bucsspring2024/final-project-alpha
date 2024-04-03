@@ -9,13 +9,13 @@
 
 << List team member names >>
 
-***
+*** Jeremy Luk
 
 ## Project Description
 
 << Give an overview of your project >>
 
-***    
+*** I want to create a 2D monopoly game where the user moves a character around a board and interacts with random events based on where they land.    
 
 ## GUI Design
 
