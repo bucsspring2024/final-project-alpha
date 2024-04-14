@@ -21,7 +21,7 @@
 
 ### Initial Design
 
-![initial gui](assets/gui.jpg)
+![initial gui](assets/gui.png)
 
 ### Final Design
 
@@ -32,8 +32,8 @@
 ### Features
 
 1. << Character moves around >>
-2. << Feature 2 >>
-3. << Feature 3 >>
+2. << Interactable Choices >>
+3. << Buttons as a dice >>
 4. << Feature 4 >>
 5. << Feature 5 >>
 
