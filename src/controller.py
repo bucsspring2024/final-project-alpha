@@ -47,7 +47,7 @@ class Controller:
         # check for events
         for event in events:
             if event.type == pygame.QUIT:
-                self.state = "menu"
+                self.running = False
         if self.game:
             #update data
             self.game.update()  
