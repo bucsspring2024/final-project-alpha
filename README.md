@@ -7,13 +7,9 @@
 
 ## Team Members
 
-<< List team member names >>
-
 *** Jeremy Luk
 
 ## Project Description
-
-<< Give an overview of your project >>
 
 *** I want to create a 2D Game of Life board game where the user moves a character around a board and interacts with random events based on where they land and the amount of money they made will display at the end as the player's score.
 
@@ -31,10 +27,10 @@
 
 ### Features
 
-1. << Character moves around >>
-2. << Interactable Choices >>
-3. << Buttons as a dice >>
-4. << Feature 4 >>
+1. Character moves around
+2. Interactable Choices
+3. Buttons as a dice
+4. Score keeping and displaying score at end
 5. << Feature 5 >>
 
 ### Classes
