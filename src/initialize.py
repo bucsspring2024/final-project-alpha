@@ -15,8 +15,7 @@ class Initialize():
         self.font = pygame.font.Font(None, 36)
         self.radius = 85
         self.circle_center = (self.x - self.radius + 10, self.radius + 10)
-        self.turn_count = 0
-        self.game = None
+        self.game = Game(self.screen)
     
     def draw_wheel(self):
         pygame.draw.circle(self.screen, "black", self.circle_center, self.radius, width = 2)
@@ -35,15 +34,13 @@ class Initialize():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.is_within_circle(event.pos):
                     roll_num = random.randrange(0, 10)
-                    self.turn_count += roll_num
+                    #self.turn_count += roll_num
 
-    def update(self):
-        self.screen.fill("white")
-        if self.turn_count in [0, 20, 30]:  
-            if not self.game:
-                self.game = Game(self.screen)
-            self.game.update()  
+    def update(self, events):
+        if self.game.count == 0:  
+            self.game.update(events)  
         else:
+            self.screen.fill("white")
             pygame.draw.rect(self.screen, "blue", self.player)  # Draws the player
             self.draw_wheel() 
         pygame.display.flip()

@@ -50,7 +50,7 @@ class Controller:
                 self.running = False
         if self.game:
             #update data
-            self.game.update()  
+            self.game.update(events)  
         #redraw
         pygame.display.flip() 
             
