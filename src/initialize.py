@@ -1,4 +1,5 @@
 import pygame
+import pygame_menu
 import random
 from src.game import Game
 
@@ -23,6 +24,10 @@ class Initialize():
         text_pos = (self.circle_center[0] - text_surface.get_width() / 2,
                     self.circle_center[1] - text_surface.get_height() / 2)
         self.screen.blit(text_surface, text_pos)
+        
+    def draw_scoreboard(self):
+        text_surface = self.font.render(str(self.game.count), True, "black")
+        self.screen.blit(text_surface, (self.x/2, self.y/2))
     
     def is_within_circle(self, pos):
         dx = pos[0] - self.circle_center[0]
@@ -34,14 +39,31 @@ class Initialize():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.is_within_circle(event.pos):
                     roll_num = random.randrange(0, 10)
-                    #self.turn_count += roll_num
+                    self.game.count += roll_num
+                    if self.game.count >= 100:
+                        return 'game_over'
+                    return 'continue'
 
+    def display_menu(self):
+        self.menu = pygame_menu.Menu('Game Over', 400, 300, theme=pygame_menu.themes.THEME_BLUE)
+        self.menu.add.label(f"Score: {self.game.count}", max_char=-1, font_size=24)
+        self.menu.add.button('Restart', self.restart_game)
+        self.menu.add.button('Quit', pygame_menu.events.EXIT)
+        self.menu.mainloop(self.screen)
+        
+    def restart_game(self):
+        self.game.count = 0  
+        self.state = "game"  
+        self.gameloop()
+    
     def update(self, events):
+        #print("Updating screen...") debug statement
+        self.screen.fill("white")
         if self.game.count == 0:  
             self.game.update(events)  
         else:
-            self.screen.fill("white")
             pygame.draw.rect(self.screen, "blue", self.player)  # Draws the player
-            self.draw_wheel() 
+            self.draw_wheel()
+        self.draw_scoreboard()
         pygame.display.flip()
     

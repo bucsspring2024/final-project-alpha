@@ -11,8 +11,9 @@ class Controller:
         #setup pygame data
         self.state = "menu"
         self.menu = pygame_menu.Menu('Welcome', self.x/2, self.y/2, theme=pygame_menu.themes.THEME_BLUE)
-        self.menu.add.button('Play', self.start_game)#function to start the game
-        self.menu.add.button('Quit', self.quit_game)
+        self.start_button = self.menu.add.button("Play", self.start_game)
+        self.quit_button = self.menu.add.button("Quit", self.quit_game)
+        
     
     def start_game(self):
         self.state = "game" 
@@ -20,6 +21,13 @@ class Controller:
         
     def quit_game(self):
         self.running = False  
+    
+    def restart_game(self):
+        self.start_game()  # Reuse start_game to reset everything
+        
+    def update_button_text(self, new_label, new_action):
+        self.start_button.set_title(new_label)
+        self.start_button.update_callback(new_action)
         
     def mainloop(self):
       while self.running:
@@ -43,14 +51,20 @@ class Controller:
         pygame.display.update()    
       
     def gameloop(self):
-        events = pygame.event.get()   
-        # check for events
-        for event in events:
-            if event.type == pygame.QUIT:
-                self.running = False
-        if self.game:
+        game_running = True
+        while self.running and game_running:
+            events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.QUIT:
+                    self.running = False
             #update data
-            self.game.update(events)  
+            if self.state == "game":
+                self.game.update(events)
+                game_result = self.game.handle_events(events)
+                if game_result == "game_over":
+                    self.update_button_text("Play Again", self.start_game)
+                    self.state = "menu"
+                    game_running = False
         #redraw
         pygame.display.flip() 
             
