@@ -15,7 +15,7 @@ class Initialize():
         self.player = pygame.Rect(x_pos, y_pos, 25, 25)
         self.font = pygame.font.Font(None, 36)
         self.radius = 85
-        self.circle_center = (self.x - self.radius + 10, self.radius + 10)
+        self.circle_center = (self.x/2, 3*self.y/8)
         self.game = Game(self.screen)
     
     def draw_wheel(self):
@@ -26,8 +26,8 @@ class Initialize():
         self.screen.blit(text_surface, text_pos)
         
     def draw_scoreboard(self):
-        text_surface = self.font.render(str(self.game.count), True, "black")
-        self.screen.blit(text_surface, (self.x/2, self.y/2))
+        text_surface = self.font.render("Score: " + str(self.game.count), True, "black")
+        self.screen.blit(text_surface, (self.x - self.radius - 25, 0))
     
     def is_within_circle(self, pos):
         dx = pos[0] - self.circle_center[0]
@@ -45,7 +45,7 @@ class Initialize():
                     return 'continue'
 
     def display_menu(self):
-        self.menu = pygame_menu.Menu('Game Over', 400, 300, theme=pygame_menu.themes.THEME_BLUE)
+        self.menu = pygame_menu.Menu('Game Over', 400, 100, theme=pygame_menu.themes.THEME_BLUE)
         self.menu.add.label(f"Score: {self.game.count}", max_char=-1, font_size=24)
         self.menu.add.button('Restart', self.restart_game)
         self.menu.add.button('Quit', pygame_menu.events.EXIT)
