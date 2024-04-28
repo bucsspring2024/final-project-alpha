@@ -54,8 +54,6 @@ class Initialize():
                         self.game.count += 1
                         if self.game.count >= self.x-10:
                             return "game_over"
-                        elif self.game.count == 15:
-                            self.game.second_update(events)
                     return "continue"
 
     def display_menu(self):
@@ -77,6 +75,8 @@ class Initialize():
         if self.context.handle_events(events):
             if self.game.count == 0:  
                 self.game.first_update(events) 
+            elif self.game.count == 15:
+                self.game.second_update(events)
             else:
                 self.screen.fill("white")
                 pygame.draw.rect(self.screen, "green", self.player)  # Draws the player
