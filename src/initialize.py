@@ -38,7 +38,7 @@ class Initialize():
         
     def draw_scoreboard(self):
         text_surface = self.font.render("Score: " + str(self.game.count), True, "black")
-        self.screen.blit(text_surface, (self.x - self.radius - 30, 0))
+        self.screen.blit(text_surface, (self.x - self.radius - 35, 0))
     
     def is_within_circle(self, pos):
         dx = pos[0] - self.circle_center[0]
@@ -49,12 +49,14 @@ class Initialize():
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.is_within_circle(event.pos):
-                    roll_num = random.randrange(0, 10)
+                    roll_num = random.randrange(0, 20)
                     for i in range(roll_num):
                         self.game.count += 1
                         if self.game.count >= self.x-10:
                             return "game_over"
-                        return "continue"
+                        elif self.game.count == 15:
+                            self.game.second_update(events)
+                    return "continue"
 
     def display_menu(self):
         self.menu = pygame_menu.Menu('Game Over', 400, 100, theme=pygame_menu.themes.THEME_BLUE)
@@ -75,8 +77,6 @@ class Initialize():
         if self.context.handle_events(events):
             if self.game.count == 0:  
                 self.game.first_update(events) 
-            elif self.game.count == 15:
-                self.game.second_update(events)
             else:
                 self.screen.fill("white")
                 pygame.draw.rect(self.screen, "green", self.player)  # Draws the player
