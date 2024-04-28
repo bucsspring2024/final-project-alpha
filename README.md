@@ -3,7 +3,7 @@
 :warning: Everything between << >> needs to be replaced (remove << >> after replacing)
 
 # << Project Title >>
-## CS110 Final Project  << Semester, Year >>
+## CS110 Final Project   Spring, 2024 
 
 ## Team Members
 
@@ -29,13 +29,22 @@
 
 1. Character moves around
 2. Interactable Choices
-3. Buttons as a dice
+3. Buttons as a roll mechanism
 4. Score keeping and displaying score at end
-5. << Feature 5 >>
+5. Menu to keep playing or to quit
 
 ### Classes
 
 - << You should have a list of each of your classes with a description >>
+
+Controller:
+- 
+
+Initialize:
+- 
+
+Game:
+- 
 
 ## ATP
 
