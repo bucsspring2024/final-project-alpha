@@ -24,10 +24,13 @@ class Context:
             text_intro_pos = (self.x/2, self.y/2)
             self.screen.blit(text_intro, (text_intro_pos[0], text_intro_pos[1] + 40))
         text_intro_instruct = self.font.render(self.instructions, True, "black")
-        self.screen.blit(text_intro_instruct, (0, self.y-100))
-        
+        self.screen.blit(text_intro_instruct, (5, self.y-75))
+        self.box = pygame.Rect(0,self.y-100, 225, 100)
+        pygame.draw.rect(self.screen, "magenta", self.box, width=3)
+    
     def handle_events(self, events):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
-                self.click = True  
+                if self.box.collidepoint(event.pos):
+                    self.click = True  
         return self.click

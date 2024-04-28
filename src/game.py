@@ -1,4 +1,3 @@
-import random
 import pygame
 from src.context import Context
 
@@ -16,25 +15,47 @@ class Game:
         pygame.draw.rect(self.screen, "blue", self.box_one)
         pygame.draw.rect(self.screen, "red", self.box_two)
         #Box 1 Text
-        text_surface_one = self.font.render("Start Driving", True, "white")
-        text_x_one = self.box_one.x + (self.box_one.width - text_surface_one.get_width()) // 2
-        text_y_one = self.box_one.y + (self.box_one.height - text_surface_one.get_height()) // 2
-        self.screen.blit(text_surface_one, (text_x_one, text_y_one))
+        self.text_surface_one = self.font.render("Start Driving", True, "white")
+        self.text_x_one = self.box_one.x + (self.box_one.width - self.text_surface_one.get_width()) // 2
+        self.text_y_one = self.box_one.y + (self.box_one.height - self.text_surface_one.get_height()) // 2
+        self.screen.blit(self.text_surface_one, (self.text_x_one, self.text_y_one))
         #Box 2 Text
-        text_surface_two = self.font.render("Refuel", True, "white")
-        text_x_two = self.box_two.x + (self.box_two.width - text_surface_two.get_width()) // 2
-        text_y_two = self.box_two.y + (self.box_two.height - text_surface_two.get_height()) // 2
-        self.screen.blit(text_surface_two, (text_x_two, text_y_two))
+        self.text_surface_two = self.font.render("Refuel", True, "white")
+        self.text_x_two = self.box_two.x + (self.box_two.width - self.text_surface_two.get_width()) // 2
+        self.text_y_two = self.box_two.y + (self.box_two.height - self.text_surface_two.get_height()) // 2
+        self.screen.blit(self.text_surface_two, (self.text_x_two, self.text_y_two))
         #Instructions
         text_instruct = self.font.render("Choose One", True, "white")
-        self.screen.blit(text_instruct, ((text_x_one+text_x_two)/2, self.y/6))
+        self.screen.blit(text_instruct, ((self.text_x_one+self.text_x_two)/2, self.y/6))
         
-    def update(self, events):
+    def choice_two(self): 
+        pygame.draw.rect(self.screen, "blue", self.box_one)
+        pygame.draw.rect(self.screen, "red", self.box_two)
+        #Box 1 Text
+        self.text_surface_one = self.font.render("Spare Tire", True, "white")
+        self.screen.blit(self.text_surface_one, (self.text_x_one, self.text_y_one))
+        #Box 2 Text
+        self.text_surface_two = self.font.render("Food", True, "white")
+        self.screen.blit(self.text_surface_two, (self.text_x_two, self.text_y_two))
+        #Instructions
+        text_context = self.font.render("You stop at a gas station", True, "white")
+        self.screen.blit(text_context, ((self.text_x_one+self.text_x_two)/2, self.y/10))
+        text_instruct = self.font.render("Choose one to buy", True, "white")
+        self.screen.blit(text_instruct, ((self.text_x_one+self.text_x_two)/2, self.y/6))
+        
+        
+    def first_update(self, events):
         self.screen.fill("green")
         self.choice_one()
         self.handle_events(events)
         pygame.display.flip()
-
+    
+    def second_update(self, events):
+        self.screen.fill("green")
+        self.choice_two()
+        self.handle_events(events)
+        pygame.display.flip()
+        
     def perform_action_one(self):
         self.count += 5
         # Implement the action for clicking Start Driving
