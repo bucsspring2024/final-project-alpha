@@ -5,7 +5,9 @@ from src.initialize import Initialize
 class Controller:
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((800, 600))
+        self.screen_x = 1000
+        self.screen_y = 800
+        self.screen = pygame.display.set_mode((self.screen_x, self.screen_y))
         self.x, self.y = self.screen.get_size()
         self.running = True
         #setup pygame data

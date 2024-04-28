@@ -9,14 +9,23 @@ class Initialize():
         pygame.init()
         self.screen = screen
         self.x = self.screen.get_width()
-        x_pos = 5
         self.y = self.screen.get_height()
-        y_pos = self.y/2
-        self.player = pygame.Rect(x_pos, y_pos, 25, 25)
+        self.start_pos = (5, 5*self.y/8)
+        self.player = pygame.Rect((self.start_pos), (25, 25))
         self.font = pygame.font.Font(None, 36)
         self.radius = 85
         self.circle_center = (self.x/2, 3*self.y/8)
         self.game = Game(self.screen)
+    
+    def init_text(self):
+        text_ypos = self.start_pos[1] - 25
+        text_start = self.font.render("Start", True, "red")
+        text_start_pos = (self.start_pos[0], text_ypos)
+        self.screen.blit(text_start, text_start_pos)
+        
+        text_finish = self.font.render("Finish", True, "Blue")
+        text_finish_pos = (self.x - 75, text_ypos)
+        self.screen.blit(text_finish, text_finish_pos)
     
     def draw_wheel(self):
         pygame.draw.circle(self.screen, "black", self.circle_center, self.radius, width = 2)
@@ -62,8 +71,9 @@ class Initialize():
         if self.game.count == 0:  
             self.game.update(events)  
         else:
-            pygame.draw.rect(self.screen, "blue", self.player)  # Draws the player
+            pygame.draw.rect(self.screen, "green", self.player)  # Draws the player
             self.draw_wheel()
-        self.draw_scoreboard()
+            self.init_text()
+            self.draw_scoreboard()
         pygame.display.flip()
     
