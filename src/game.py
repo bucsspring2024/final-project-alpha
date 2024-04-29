@@ -67,7 +67,10 @@ class Game:
     def handle_events(self, events):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:  
-                if self.box_one.collidepoint(event.pos): 
+                if self.box_one.collidepoint(event.pos):
+                    print("Box One Clicked") #Debug
                     self.perform_action_one()
                 elif self.box_two.collidepoint(event.pos): 
+                    print("Box Two Clicked") #Debug
                     self.perform_action_two()
+                    

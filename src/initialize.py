@@ -3,6 +3,7 @@ import pygame_menu
 import random
 from src.game import Game
 from src.context import Context
+from src.movement import Movement
 
 class Initialize():
     
@@ -12,12 +13,13 @@ class Initialize():
         self.x = self.screen.get_width()
         self.y = self.screen.get_height()
         self.start_pos = (5, 5*self.y/8)
-        self.player = pygame.Rect((self.start_pos), (25, 25))
+        self.player = Movement(5, 5*self.y/8, 25, 25, self.x)
         self.font = pygame.font.Font(None, 36)
         self.radius = 85
         self.circle_center = (self.x/2, 3*self.y/8)
         self.game = Game(self.screen)
         self.context = Context(self.screen)
+        self.old_count = self.game.count
     
     def init_text(self):
         text_ypos = self.start_pos[1] - 25
@@ -72,16 +74,19 @@ class Initialize():
         #print("Updating screen...") debug statement
         self.screen.fill("white")
         self.context.display_text()
+        print(f"Game Count: {self.game.count}, Old Count: {self.old_count}") #debug
         if self.context.handle_events(events):
             if self.game.count == 0:  
                 self.game.first_update(events) 
-            elif self.game.count == 15:
+            elif 40 in range(self.old_count + 1, self.game.count + 1):
                 self.game.second_update(events)
             else:
                 self.screen.fill("white")
-                pygame.draw.rect(self.screen, "green", self.player)  # Draws the player
+                self.player.move_right(self.game.count) 
+                self.player.draw(self.screen)
                 self.draw_wheel()
                 self.init_text()
                 self.draw_scoreboard()
+            self.old_count = self.game.count
         pygame.display.flip()
     
