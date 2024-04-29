@@ -6,7 +6,8 @@ class Context:
         self.screen = screen
         self.x = self.screen.get_width()
         self.y = self.screen.get_height()
-        self.intro = """You want to travel to San Francisco\n
+        self.intro = """
+        You want to travel to San Francisco\n
         from New York City. However, all the flights to San Francisco\n
         are booked so you decide to drive across the country. Through\n
         a series of decision making, reach the west coast as fast\n
@@ -16,13 +17,17 @@ class Context:
         self.font = pygame.font.Font(None, 36)
         self.click = False
         self.instructions = """Click to Continue"""
+        self.list = []
+        for line in self.lines:
+            surface = self.font.render(line, True, "black")
+            self.list.append(surface)
         
     def display_text(self):
+        intro_y = 50
         self.screen.fill("orange")
-        for i in enumerate(self.lines):
-            text_intro = self.font.render(self.intro, True, "black")
-            text_intro_pos = (self.x/2, self.y/2)
-            self.screen.blit(text_intro, (text_intro_pos[0], text_intro_pos[1] + 40))
+        for surface in self.list:
+            self.screen.blit(surface, (50, intro_y)) 
+            intro_y += surface.get_height() + 10
         text_intro_instruct = self.font.render(self.instructions, True, "black")
         self.screen.blit(text_intro_instruct, (5, self.y-75))
         self.box = pygame.Rect(0,self.y-100, 225, 100)

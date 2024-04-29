@@ -2,7 +2,7 @@
 
 :warning: Everything between << >> needs to be replaced (remove << >> after replacing)
 
-# << Project Title >>
+# The Road Trip
 ## CS110 Final Project   Spring, 2024 
 
 ## Team Members
