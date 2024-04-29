@@ -64,6 +64,10 @@ class Controller:
                 self.game.update(events)
                 game_result = self.game.handle_events(events)
                 if game_result == "game_over":
+                    self.menu = pygame_menu.Menu('Game Over', self.x/2, self.y/2, theme=pygame_menu.themes.THEME_BLUE)
+                    self.menu.add.label(f"Score: {self.game.game.turn_count}", max_char=-1, font_size=24)
+                    self.start_button = self.menu.add.button("Play", self.start_game)
+                    self.quit_button = self.menu.add.button("Quit", self.quit_game)
                     self.update_button_text("Play Again", self.start_game)
                     self.state = "menu"
                     game_running = False

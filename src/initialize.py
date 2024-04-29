@@ -41,6 +41,8 @@ class Initialize():
     def draw_scoreboard(self):
         text_surface = self.font.render("Score: " + str(self.game.count), True, "black")
         self.screen.blit(text_surface, (self.x - self.radius - 35, 0))
+        text_2surface = self.font.render("Turn Count: " + str(self.game.turn_count), True, "black")
+        self.screen.blit(text_2surface, (self.x - self.radius - 100, 20))
     
     def is_within_circle(self, pos):
         dx = pos[0] - self.circle_center[0]
@@ -51,19 +53,23 @@ class Initialize():
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.is_within_circle(event.pos):
+                    self.game.turn_count += 1
                     roll_num = random.randrange(0, 20)
                     for i in range(roll_num):
+                        #print(self.game.count) #debug
                         self.game.count += 1
-                        if self.game.count >= self.x-10:
+                        if self.old_count <= 40 <= self.game.count:
+                            self.game.second_update(events)
+                        elif self.game.count >= self.x-10:
                             return "game_over"
                     return "continue"
 
-    def display_menu(self):
-        self.menu = pygame_menu.Menu('Game Over', 400, 100, theme=pygame_menu.themes.THEME_BLUE)
-        self.menu.add.label(f"Score: {self.game.count}", max_char=-1, font_size=24)
-        self.menu.add.button('Restart', self.restart_game)
-        self.menu.add.button('Quit', pygame_menu.events.EXIT)
-        self.menu.mainloop(self.screen)
+    # def display_menu(self):
+    #     self.menu = pygame_menu.Menu('Game Over', 400, 100, theme=pygame_menu.themes.THEME_BLUE)
+    #     self.menu.add.label(f"Score: {self.game.count}", max_char=-1, font_size=24)
+    #     self.menu.add.button('Restart', self.restart_game)
+    #     self.menu.add.button('Quit', pygame_menu.events.EXIT)
+    #     self.menu.mainloop(self.screen)
         
     def restart_game(self):
         self.game.count = 0  
@@ -74,12 +80,10 @@ class Initialize():
         #print("Updating screen...") debug statement
         self.screen.fill("white")
         self.context.display_text()
-        print(f"Game Count: {self.game.count}, Old Count: {self.old_count}") #debug
+        #print(f"Game Count: {self.game.count}, Old Count: {self.old_count}") #debug
         if self.context.handle_events(events):
             if self.game.count == 0:  
-                self.game.first_update(events) 
-            elif 40 in range(self.old_count + 1, self.game.count + 1):
-                self.game.second_update(events)
+                self.game.first_update(events)
             else:
                 self.screen.fill("white")
                 self.player.move_right(self.game.count) 
