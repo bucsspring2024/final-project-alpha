@@ -15,6 +15,8 @@ class Game:
         self.box_3_2 = pygame.Rect(6*self.x/10, self.y/4, self.x/3, self.x/3)
         self.font = pygame.font.Font(None, 36) 
         self.turn_count = 0
+        self.multiplier = 1
+        self.additioner = 0
         
             
     def choice_one(self):
@@ -74,14 +76,14 @@ class Game:
         self.screen.fill("green")
         self.choice_two()
         pygame.display.flip()
-        time.sleep(0.5)
+        time.sleep(1)
         self.handle_events(events)
     
     def third_update(self, events):
         self.screen.fill("green")
         self.choice_three()
         pygame.display.flip()
-        time.sleep(0.5)
+        time.sleep(1)
         self.handle_events(events)
         
     def perform_action_1_1(self):
@@ -106,7 +108,8 @@ class Game:
         
     def perform_action_3_1(self):
         self.count += 0
-        self.turn_count += 4
+        self.turn_count += 5
+        self.multiplier = 1.5
         # Clicking Rest Area
 
     def perform_action_3_2(self):

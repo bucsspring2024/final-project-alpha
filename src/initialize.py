@@ -57,9 +57,11 @@ class Initialize():
                     roll_num = random.randrange(0, 20)
                     for i in range(roll_num):
                         #print(self.game.count) #debug
-                        self.game.count += 1
-                        if self.old_count <= 40 <= self.game.count:
+                        self.game.count = round((self.game.count + 1 + self.game.additioner) * self.game.multiplier)
+                        if self.old_count <= 50 <= self.game.count:
                             self.game.second_update(events)
+                        elif self.old_count <= 150 <= self.game.count:
+                            self.game.third_update(events)
                         elif self.game.count >= self.x-10:
                             return "game_over"
                     return "continue"
