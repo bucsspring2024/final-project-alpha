@@ -64,13 +64,6 @@ class Initialize():
                             return "game_over"
                     return "continue"
 
-    # def display_menu(self):
-    #     self.menu = pygame_menu.Menu('Game Over', 400, 100, theme=pygame_menu.themes.THEME_BLUE)
-    #     self.menu.add.label(f"Score: {self.game.count}", max_char=-1, font_size=24)
-    #     self.menu.add.button('Restart', self.restart_game)
-    #     self.menu.add.button('Quit', pygame_menu.events.EXIT)
-    #     self.menu.mainloop(self.screen)
-        
     def restart_game(self):
         self.game.count = 0  
         self.state = "game"  
