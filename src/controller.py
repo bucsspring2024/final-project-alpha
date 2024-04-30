@@ -64,16 +64,25 @@ class Controller:
                 self.game.update(events)
                 game_result = self.game.handle_events(events)
                 if game_result == "game_over":
-                    self.menu = pygame_menu.Menu('Game Over', self.x/2, self.y/2, theme=pygame_menu.themes.THEME_BLUE)
-                    self.menu.add.label(f"Score: {self.game.game.turn_count}", max_char=-1, font_size=24)
-                    self.start_button = self.menu.add.button("Play", self.start_game)
-                    self.quit_button = self.menu.add.button("Quit", self.quit_game)
-                    self.update_button_text("Play Again", self.start_game)
-                    self.state = "menu"
-                    game_running = False
+                    self.setup_game_over_menu()
+                elif game_result == "wait_for_click":
+                    self.waiting_for_click = True
+                    self.state = "special_ui"
+                elif game_result == "continue":
+                    pass
+            if self.state == "special_ui":  # Assuming a state for special UI
+                self.game.game.special_handle_events(events)
+
         #redraw
         pygame.display.flip() 
             
+    def setup_game_over_menu(self):
+        self.menu = pygame_menu.Menu('Game Over', self.x/2, self.y/2, theme=pygame_menu.themes.THEME_BLUE)
+        self.menu.add.label(f"Score: {self.game.turn_count}", max_char=-1, font_size=24)
+        self.start_button = self.menu.add.button("Play", self.start_game)
+        self.quit_button = self.menu.add.button("Quit", self.quit_game)
+        self.update_button_text("Play Again", self.start_game)
+        self.state = "menu"
 #   def gameoverloop(self):
 #       #event loop
 

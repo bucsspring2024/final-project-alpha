@@ -20,6 +20,8 @@ class Initialize():
         self.game = Game(self.screen)
         self.context = Context(self.screen)
         self.old_count = self.game.count
+        self.waiting_for_click = False
+        self.state = "game"
     
     def init_text(self):
         text_ypos = self.start_pos[1] - 25
@@ -52,18 +54,38 @@ class Initialize():
     def handle_events(self, events):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
+                if self.waiting_for_click:
+                # If waiting for click and it's a valid click, reset the flag
+                    if self.is_within_circle(event.pos):
+                        self.waiting_for_click = False
+                        print("Click received, continuing count...")
+                    continue  # Skip the normal processing when waiting for a click
+                
                 if self.is_within_circle(event.pos):
                     self.game.turn_count += 1
                     roll_num = random.randrange(0, 20)
-                    for i in range(roll_num):
+                    i = 0
+                    while i < roll_num:
+                        self.old_count = self.game.count
                         #print(self.game.count) #debug
+                        print(f"Before Update: {self.game.count}")
                         self.game.count = round((self.game.count + 1 + self.game.additioner) * self.game.multiplier)
+                        print(f"After Update: {self.game.count}")
+                        
                         if self.old_count <= 50 <= self.game.count:
-                            self.game.second_update(events)
+                            if not self.waiting_for_click:
+                                print("Reached 50, waiting for user click to continue...")
+                                self.game.second_update(events)
+                                self.state = "special_ui"
+                                self.waiting_for_click = True
+                                break  # Break out of the while loop to wait for a click
                         elif self.old_count <= 150 <= self.game.count:
                             self.game.third_update(events)
+                        elif self.old_count <= 400 <= self.game.count:
+                            self.game.fourth_update(events)
                         elif self.game.count >= self.x-10:
                             return "game_over"
+                        i += 1
                     return "continue"
 
     def restart_game(self):
@@ -73,19 +95,22 @@ class Initialize():
     
     def update(self, events):
         #print("Updating screen...") debug statement
-        self.screen.fill("white")
-        self.context.display_text()
-        #print(f"Game Count: {self.game.count}, Old Count: {self.old_count}") #debug
-        if self.context.handle_events(events):
-            if self.game.count == 0:  
-                self.game.first_update(events)
-            else:
-                self.screen.fill("white")
-                self.player.move_right(self.game.count) 
-                self.player.draw(self.screen)
-                self.draw_wheel()
-                self.init_text()
-                self.draw_scoreboard()
-            self.old_count = self.game.count
+        if self.state == "game":
+            self.screen.fill("white")
+            self.context.display_text()
+            #print(f"Game Count: {self.game.count}, Old Count: {self.old_count}") #debug
+            if self.context.handle_events(events):
+                if self.game.count == 0:  
+                    self.game.first_update(events)
+                else:
+                    self.screen.fill("white")
+                    self.player.move_right(self.game.count) 
+                    self.player.draw(self.screen)
+                    self.draw_wheel()
+                    self.init_text()
+                    self.draw_scoreboard()
+                self.old_count = self.game.count
+        elif self.state == "special_ui":
+            pass
         pygame.display.flip()
     
