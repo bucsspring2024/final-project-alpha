@@ -19,8 +19,6 @@ class Initialize():
         self.circle_center = (self.x/2, 3*self.y/8)
         self.game = Game(self.screen)
         self.context = Context(self.screen)
-        self.old_count = self.game.count
-        self.waiting_for_click = False
         self.state = "game"
     
     def init_text(self):
@@ -54,39 +52,32 @@ class Initialize():
     def handle_events(self, events):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if self.waiting_for_click:
-                # If waiting for click and it's a valid click, reset the flag
-                    if self.is_within_circle(event.pos):
-                        self.waiting_for_click = False
-                        print("Click received, continuing count...")
-                    continue  # Skip the normal processing when waiting for a click
-                
                 if self.is_within_circle(event.pos):
                     self.game.turn_count += 1
                     roll_num = random.randrange(0, 20)
-                    i = 0
-                    while i < roll_num:
-                        self.old_count = self.game.count
-                        #print(self.game.count) #debug
-                        print(f"Before Update: {self.game.count}")
-                        self.game.count = round((self.game.count + 1 + self.game.additioner) * self.game.multiplier)
-                        print(f"After Update: {self.game.count}")
-                        
-                        if self.old_count <= 50 <= self.game.count:
-                            if not self.waiting_for_click:
-                                print("Reached 50, waiting for user click to continue...")
-                                self.game.second_update(events)
-                                self.state = "special_ui"
-                                self.waiting_for_click = True
-                                break  # Break out of the while loop to wait for a click
-                        elif self.old_count <= 150 <= self.game.count:
-                            self.game.third_update(events)
-                        elif self.old_count <= 400 <= self.game.count:
-                            self.game.fourth_update(events)
-                        elif self.game.count >= self.x-10:
-                            return "game_over"
-                        i += 1
-                    return "continue"
+                     
+                    initial_count = self.game.count
+                    final_count = initial_count + roll_num * (1 + self.game.additioner) * self.game.multiplier
+                    self.game.count = round(final_count)
+                
+                    print(f"Updated from {initial_count} to {self.game.count}")
+
+                    if initial_count <= 50 < self.game.count:
+                        print("Reached 50, switching to special UI...")
+                        self.state = "special_ui"
+                        self.game.second_update(events)
+                            
+                            
+                    elif self.old_count <= 150 <= self.game.count:
+                        self.game.third_update(events)
+                    elif self.old_count <= 400 <= self.game.count:
+                        self.game.fourth_update(events)
+                    elif self.game.count >= self.x-10:
+                        return "game_over"
+                    if self.state == "game":
+                        return "continue"
+                    
+                
 
     def restart_game(self):
         self.game.count = 0  
@@ -111,6 +102,6 @@ class Initialize():
                     self.draw_scoreboard()
                 self.old_count = self.game.count
         elif self.state == "special_ui":
-            pass
+            self.game.special_handle_events(events)
         pygame.display.flip()
     

@@ -12,7 +12,7 @@ class Controller:
         self.running = True
         #setup pygame data
         self.state = "menu"
-        self.menu = pygame_menu.Menu('Welcome', self.x/2, self.y/2, theme=pygame_menu.themes.THEME_BLUE)
+        self.menu = pygame_menu.Menu("Welcome to Roadtrip", self.x/2, self.y/2, theme=pygame_menu.themes.THEME_BLUE)
         self.start_button = self.menu.add.button("Play", self.start_game)
         self.quit_button = self.menu.add.button("Quit", self.quit_game)
         
@@ -72,6 +72,7 @@ class Controller:
                     pass
             if self.state == "special_ui":  # Assuming a state for special UI
                 self.game.game.special_handle_events(events)
+            
 
         #redraw
         pygame.display.flip() 
