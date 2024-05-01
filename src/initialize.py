@@ -20,7 +20,10 @@ class Initialize():
         self.game = Game(self.screen)
         self.context = Context(self.screen)
         self.state = "game"
-    
+        self.old_count = self.game.count
+        self.waiting_for_click = False
+        
+        
     def init_text(self):
         text_ypos = self.start_pos[1] - 25
         text_start = self.font.render("Start", True, "red")
@@ -55,29 +58,30 @@ class Initialize():
                 if self.is_within_circle(event.pos):
                     self.game.turn_count += 1
                     roll_num = random.randrange(0, 20)
-                     
-                    initial_count = self.game.count
-                    final_count = initial_count + roll_num * (1 + self.game.additioner) * self.game.multiplier
-                    self.game.count = round(final_count)
-                
-                    print(f"Updated from {initial_count} to {self.game.count}")
+                    i = 0
+                    while i < roll_num:
+                        self.old_count = self.game.count
+                        #print(self.game.count) #debug
+                        print(f"Before Update: {self.game.count}")
+                        self.game.count = round((self.game.count + 1 + self.game.additioner) * self.game.multiplier)
+                        print(f"After Update: {self.game.count}")
 
-                    if initial_count <= 50 < self.game.count:
-                        print("Reached 50, switching to special UI...")
-                        self.state = "special_ui"
-                        self.game.second_update(events)
-                            
-                            
-                    elif self.old_count <= 150 <= self.game.count:
-                        self.game.third_update(events)
-                    elif self.old_count <= 400 <= self.game.count:
-                        self.game.fourth_update(events)
-                    elif self.game.count >= self.x-10:
-                        return "game_over"
-                    if self.state == "game":
-                        return "continue"
+                        if self.old_count <= 50 <= self.game.count:
+                            if not self.waiting_for_click:
+                                print("Reached 50, waiting for user click to continue...")
+                                self.game.second_update(events)
+                                self.state = "special_ui"
+                                self.waiting_for_click = True
+                                break  # Break out of the while loop to wait for a click
+                        elif self.old_count <= 150 <= self.game.count:
+                            self.game.third_update(events)
+                        elif self.old_count <= 400 <= self.game.count:
+                            self.game.fourth_update(events)
+                        elif self.game.count >= self.x-10:
+                            return "game_over"
+                        i += 1
+                    return "continue"
                     
-                
 
     def restart_game(self):
         self.game.count = 0  
@@ -89,7 +93,6 @@ class Initialize():
         if self.state == "game":
             self.screen.fill("white")
             self.context.display_text()
-            #print(f"Game Count: {self.game.count}, Old Count: {self.old_count}") #debug
             if self.context.handle_events(events):
                 if self.game.count == 0:  
                     self.game.first_update(events)
