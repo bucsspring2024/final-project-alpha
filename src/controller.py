@@ -60,18 +60,20 @@ class Controller:
                 if event.type == pygame.QUIT:
                     self.running = False
             #update data
-            if self.state == "game":
+            if self.game.state == "game":
+                #print("update")
                 self.game.update(events)
                 game_result = self.game.handle_events(events)
                 if game_result == "game_over":
                     self.setup_game_over_menu()
                 elif game_result == "wait_for_click":
                     self.waiting_for_click = True
-                    self.state = "special_ui"
+                    self.game.state = "special_ui"
                 elif game_result == "continue":
                     pass
-            if self.state == "special_ui":  # Assuming a state for special UI
+            if self.game.state == "special_ui":  
                 self.game.game.special_handle_events(events)
+                self.game.state = "game"
             
 
         #redraw

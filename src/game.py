@@ -101,10 +101,10 @@ class Game:
         self.screen.blit(text_instruct, ((self.text_x_one+self.text_x_two)/2, self.y/6))
         
     def first_update(self, events):
-        print(f"Running first_update with count: {self.count}")  # Debug
+        #print(f"Running first_update with count: {self.count}")  # Debug
         self.screen.fill("green")
         self.choice_one()
-        self.special_handle_events(events)
+        #self.special_handle_events(events)
         #pygame.display.flip()
     
     def second_update(self, events):
@@ -144,6 +144,9 @@ class Game:
         self.count += 5
         self.turn_count += 2
         self.click_check = True
+        #print (self.count)
+        #print(self.turn_count)
+        #print(self.click_check)
         # Clicking Spare Tire
 
     def perform_action_2_2(self):
@@ -212,12 +215,12 @@ class Game:
                 elif self.box_1_2.collidepoint(event.pos): 
                     #print("Box Two Clicked") #Debug
                     self.perform_action_1_2()
-                if self.box_2_1.collidepoint(event.pos):
-                    print("Box One Clicked") #Debug
-                    self.perform_action_2_1()
-                elif self.box_2_2.collidepoint(event.pos): 
-                    print("Box Two Clicked") #Debug
-                    self.perform_action_2_2()
+                # if self.box_2_1.collidepoint(event.pos):
+                #     print("Box One Clicked") #Debug
+                #     self.perform_action_2_1()
+                # elif self.box_2_2.collidepoint(event.pos): 
+                #     print("Box Two Clicked") #Debug
+                #     self.perform_action_2_2()
                 # if self.box_3_1.collidepoint(event.pos):
                 #     #print("Box One Clicked") #Debug
                 #     self.perform_action_3_1()

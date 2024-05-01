@@ -36,6 +36,7 @@ class Context:
     def handle_events(self, events):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
+                #print("Handle)")
                 if self.box.collidepoint(event.pos):
                     self.click = True  
         return self.click

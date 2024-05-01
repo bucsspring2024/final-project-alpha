@@ -60,23 +60,34 @@ class Initialize():
                     roll_num = random.randrange(0, 20)
                     i = 0
                     while i < roll_num:
-                        self.old_count = self.game.count
                         #print(self.game.count) #debug
-                        print(f"Before Update: {self.game.count}")
+                        #print(f"Before Update: {self.game.count}")
                         self.game.count = round((self.game.count + 1 + self.game.additioner) * self.game.multiplier)
-                        print(f"After Update: {self.game.count}")
-
-                        if self.old_count <= 50 <= self.game.count:
+                        #print(f"After Update: {self.game.count}")
+                        self.old_count = self.game.count
+                        self.waiting_for_click = False
+                        print(self.game.count)
+                        if self.old_count == 50:
                             if not self.waiting_for_click:
-                                print("Reached 50, waiting for user click to continue...")
-                                self.game.second_update(events)
+                                #print("Reached 50, waiting for user click to continue...")
                                 self.state = "special_ui"
+                                self.game.second_update(events)
                                 self.waiting_for_click = True
                                 break  # Break out of the while loop to wait for a click
-                        elif self.old_count <= 150 <= self.game.count:
-                            self.game.third_update(events)
-                        elif self.old_count <= 400 <= self.game.count:
-                            self.game.fourth_update(events)
+                        if self.old_count == 150:
+                            if not self.waiting_for_click:
+                                #print("Reached 150, waiting for user click to continue...")
+                                self.state = "special_ui"
+                                self.game.second_update(events)
+                                self.waiting_for_click = True
+                                break  # Break out of the while loop to wait for a click
+                        if self.old_count <= 400 <= self.game.count:
+                            if not self.waiting_for_click:
+                                #print("Reached 500, waiting for user click to continue...")
+                                self.state = "special_ui"
+                                self.game.second_update(events)
+                                self.waiting_for_click = True
+                                break  # Break out of the while loop to wait for a click
                         elif self.game.count >= self.x-10:
                             return "game_over"
                         i += 1
@@ -93,9 +104,21 @@ class Initialize():
         if self.state == "game":
             self.screen.fill("white")
             self.context.display_text()
+           
             if self.context.handle_events(events):
+                #print(self.game.count)
                 if self.game.count == 0:  
+                    self.state = "special_ui"
                     self.game.first_update(events)
+                elif self.game.count == 50:
+                    self.state = "special_ui"
+                    self.game.second_update(events)
+                elif self.game.count == 150:
+                    self.state = "special_ui"
+                    self.game.third_update(events)
+                elif self.game.count == 400:
+                    self.state = "special_ui"
+                    self.game.fourth_update(events)
                 else:
                     self.screen.fill("white")
                     self.player.move_right(self.game.count) 
