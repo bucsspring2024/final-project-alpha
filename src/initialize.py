@@ -22,6 +22,7 @@ class Initialize():
         self.state = "game"
         self.old_count = self.game.count
         self.waiting_for_click = False
+        self.remenu = False
         
         
     def init_text(self):
@@ -31,7 +32,7 @@ class Initialize():
         self.screen.blit(text_start, text_start_pos)
         
         text_finish = self.font.render("Finish", True, "Blue")
-        text_finish_pos = (self.x - 75, text_ypos)
+        text_finish_pos = (900, text_ypos)
         self.screen.blit(text_finish, text_finish_pos)
     
     def draw_wheel(self):
@@ -70,38 +71,32 @@ class Initialize():
                         #print(f"After Update: {self.game.count}")
                         self.old_count = self.game.count
                         self.waiting_for_click = False
-                        print(self.game.count)
+                        #print(self.game.count)
                         if self.old_count == 50:
                             if not self.waiting_for_click:
                                 #print("Reached 50, waiting for user click to continue...")
                                 self.state = "special_ui"
-                                self.game.second_update()
+                                self.game.update_screen(2)
                                 self.waiting_for_click = True
                                 break  # Break out of the while loop to wait for a click
-                        if self.old_count == 150:
+                        elif self.old_count == 150:
                             if not self.waiting_for_click:
                                 #print("Reached 150, waiting for user click to continue...")
                                 self.state = "special_ui"
-                                self.game.third_update()
+                                self.game.update_screen(3)
                                 self.waiting_for_click = True
                                 break  # Break out of the while loop to wait for a click
-                        if self.old_count <= 400 <= self.game.count:
+                        elif self.old_count == 400:
                             if not self.waiting_for_click:
                                 #print("Reached 500, waiting for user click to continue...")
                                 self.state = "special_ui"
-                                self.game.fourth_update()
+                                self.game.update_screen(4)
                                 self.waiting_for_click = True
                                 break  # Break out of the while loop to wait for a click
-                        elif self.game.count >= self.x-10:
-                            return "game_over"
+                        elif self.old_count == 900:
+                            self.state = "remenu"
+                            #print("reached remenu")
                         i += 1
-                    return "continue"
-                    
-
-    def restart_game(self):
-        self.game.count = 0  
-        self.state = "game"  
-        self.gameloop()
     
     def update(self, events):
         #print("Updating screen...") debug statement
@@ -113,16 +108,16 @@ class Initialize():
                 #print(self.game.count)
                 if self.game.count == 0:  
                     self.state = "special_ui"
-                    self.game.first_update()
+                    self.game.update_screen(1)
                 elif self.game.count == 50:
                     self.state = "special_ui"
-                    self.game.second_update()
+                    self.game.update_screen(2)
                 elif self.game.count == 150:
                     self.state = "special_ui"
-                    self.game.third_update()
+                    self.game.update_screen(3)
                 elif self.game.count == 400:
                     self.state = "special_ui"
-                    self.game.fourth_update()
+                    self.game.update_screen(4)
                 else:
                     self.screen.fill("white")
                     self.player.move_right(self.game.count) 
@@ -133,5 +128,8 @@ class Initialize():
                 self.old_count = self.game.count
         elif self.state == "special_ui":
             self.game.special_handle_events(events)
+        elif self.state == "remenu":
+            #print("this executes")
+            pass
         pygame.display.flip()
     

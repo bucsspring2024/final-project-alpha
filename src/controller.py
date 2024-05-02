@@ -23,9 +23,6 @@ class Controller:
         
     def quit_game(self):
         self.running = False  
-    
-    def restart_game(self):
-        self.start_game()  # Reuse start_game to reset everything
         
     def update_button_text(self, new_label, new_action):
         self.start_button.set_title(new_label)
@@ -33,6 +30,7 @@ class Controller:
         
     def mainloop(self):
       while self.running:
+            #print(self.state)
             if self.state == "menu":
                 self.menuloop()
             elif self.state == "game":
@@ -63,29 +61,39 @@ class Controller:
             if self.game.state == "game":
                 #print("update")
                 self.game.update(events)
-                game_result = self.game.handle_events(events)
-                if game_result == "game_over":
-                    self.setup_game_over_menu()
-                elif game_result == "wait_for_click":
-                    self.waiting_for_click = True
-                    self.game.state = "special_ui"
-                elif game_result == "continue":
-                    pass
+                self.game.handle_events(events)
+                #print(self.game.remenu)
+                # if self.game.remenu == True:
+                #     #print("works")
+                #     self.state = "menu"
+                #     self.setup_game_over_menu()
+                    #print("Setup game over menu executed")
             if self.game.state == "special_ui":  
                 self.game.game.special_handle_events(events)
                 self.game.state = "game"
+            if self.game.state == "remenu":
+                self.state = "menu"
+                game_running = False
+                #print("state changed to menu")
+                self.game.update(events)
+                self.setup_game_over_menu()
             
 
         #redraw
         pygame.display.flip() 
             
     def setup_game_over_menu(self):
+        #print("Setting up game over menu"
+        #self.game.state = "menu"
         self.menu = pygame_menu.Menu('Game Over', self.x/2, self.y/2, theme=pygame_menu.themes.THEME_BLUE)
-        self.menu.add.label(f"Score: {self.game.turn_count}", max_char=-1, font_size=24)
+        self.menu.add.label(f"Score: {self.game.game.turn_count}", max_char=-1, font_size=24)
         self.start_button = self.menu.add.button("Play", self.start_game)
         self.quit_button = self.menu.add.button("Quit", self.quit_game)
         self.update_button_text("Play Again", self.start_game)
-        self.state = "menu"
+        #self.menu.draw(self.screen)
+        #print(f"Current state: {self.state}")
+
+        
 #   def gameoverloop(self):
 #       #event loop
 
