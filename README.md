@@ -37,17 +37,23 @@
 
 - << You should have a list of each of your classes with a description >>
 
-Controller:
+    Controller:
 - 
 
-Initialize:
+    Initialize:
+        The Initialize class creates the screen and the objects on the screen such as the scoreboard, the wheel, and the player icon. This class also controls the score count when the user clicks on 
 - 
 
-Game:
+    Game:
+        The Game class handles user inputs and the choices the user makes during the game. When the class game is called, it will display text and boxes on the screen depending on how the class is called. When the user clicks on of these boxes, it will trigger changes to the score or the screen depending on which choice the user makes. 
 - 
 
-Movement:
-- 
+    Movement:
+        This class controls the movement of the user when the user clicks the roll circle. This class ensures that the user moves to the right based on the number that they roll and stops the movement if the user icon moves off the screen.
+-
+
+    Context:
+        Creates a short paragraph introduction about the game and what the user is expected to do. This class also fills in the color of the background and creates a rectangle which the user is supposed to click to allow the game to continue to the next part. 
 ## ATP
 
 Test Case 1: User Movement
