@@ -66,9 +66,9 @@ class Initialize():
                     i = 0
                     while i < roll_num:
                         #print(self.game.count) #debug
-                        #print(f"Before Update: {self.game.count}")
-                        self.game.count = round((self.game.count + 1 + self.game.additioner) * self.game.multiplier)
-                        #print(f"After Update: {self.game.count}")
+                        print(f"Before Update: {self.game.count}")
+                        self.game.count = self.game.count + 1 
+                        print(f"After Update: {self.game.count}")
                         self.old_count = self.game.count
                         self.waiting_for_click = False
                         #print(self.game.count)
@@ -76,17 +76,24 @@ class Initialize():
                             if not self.waiting_for_click:
                                 #print("Reached 50, waiting for user click to continue...")
                                 self.state = "special_ui"
-                                self.game.update_screen(2)
+                                self.game.update_screen(1)
                                 self.waiting_for_click = True
                                 break  # Break out of the while loop to wait for a click
                         elif self.old_count == 150:
                             if not self.waiting_for_click:
                                 #print("Reached 150, waiting for user click to continue...")
                                 self.state = "special_ui"
+                                self.game.update_screen(2)
+                                self.waiting_for_click = True
+                                break  # Break out of the while loop to wait for a click
+                        elif self.old_count == 300:
+                            if not self.waiting_for_click:
+                                #print("Reached 500, waiting for user click to continue...")
+                                self.state = "special_ui"
                                 self.game.update_screen(3)
                                 self.waiting_for_click = True
                                 break  # Break out of the while loop to wait for a click
-                        elif self.old_count == 400:
+                        elif self.old_count == 450:
                             if not self.waiting_for_click:
                                 #print("Reached 500, waiting for user click to continue...")
                                 self.state = "special_ui"
@@ -97,6 +104,7 @@ class Initialize():
                             self.state = "remenu"
                             #print("reached remenu")
                         i += 1
+                        self.game.count += self.game.additioner
     
     def update(self, events):
         #print("Updating screen...") debug statement
@@ -108,16 +116,23 @@ class Initialize():
                 #print(self.game.count)
                 if self.game.count == 0:  
                     self.state = "special_ui"
-                    self.game.update_screen(1)
+                    self.game.update_screen(0)
                 elif self.game.count == 50:
                     self.state = "special_ui"
-                    self.game.update_screen(2)
+                    self.game.update_screen(1)
+                    self.game.index = 1
                 elif self.game.count == 150:
                     self.state = "special_ui"
+                    self.game.update_screen(2)
+                    self.game.index = 2
+                elif self.game.count == 300:
+                    self.state = "special_ui"
                     self.game.update_screen(3)
-                elif self.game.count == 400:
+                    self.game.index = 3
+                elif self.game.count == 450:
                     self.state = "special_ui"
                     self.game.update_screen(4)
+                    self.game.index = 4
                 else:
                     self.screen.fill("white")
                     self.player.move_right(self.game.count) 

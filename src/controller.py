@@ -77,8 +77,6 @@ class Controller:
                 #print("state changed to menu")
                 self.game.update(events)
                 self.setup_game_over_menu()
-            
-
         #redraw
         pygame.display.flip() 
             
@@ -86,17 +84,10 @@ class Controller:
         #print("Setting up game over menu"
         #self.game.state = "menu"
         self.menu = pygame_menu.Menu('Game Over', self.x/2, self.y/2, theme=pygame_menu.themes.THEME_BLUE)
-        self.menu.add.label(f"Score: {self.game.game.turn_count}", max_char=-1, font_size=24)
+        self.menu.add.label(f"Turns Taken: {self.game.game.turn_count}", max_char=-1, font_size=24)
         self.start_button = self.menu.add.button("Play", self.start_game)
         self.quit_button = self.menu.add.button("Quit", self.quit_game)
         self.update_button_text("Play Again", self.start_game)
         #self.menu.draw(self.screen)
         #print(f"Current state: {self.state}")
 
-        
-#   def gameoverloop(self):
-#       #event loop
-
-#       #update data
-
-#       #redraw
