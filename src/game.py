@@ -8,8 +8,6 @@ class Game:
         self.setup_choices()
         self.font = pygame.font.Font(None, 36) 
         self.turn_count = 0
-        self.multiplier = 1
-        self.additioner = 0
         self.click_check = False
         self.index = 0
         self.Tire = False
@@ -22,9 +20,9 @@ class Game:
             {"text": ("Spare Tire", "Food"), "color": ("blue", "red")},
             {"text": ("Rest at the rest area", "Keep going"), "color": ("blue", "red")},
             {"text": ("Risk driving through the storm", "Find a detour"), "color": ("blue", "red")},
-            {"text": ("Retrace your steps", "Follow your gut"), "color": ("blue", "red")},
+            {"text": ("Retrace your steps", "Risk following your gut feeling"), "color": ("blue", "red")},
             {"text": ("Replace the tire", "Wait for a mechanic"), "color": ("blue", "red")},
-            {"text": ("Wait in traffic", "Take another road"), "color": ("blue", "red")}
+            {"text": ("Take a gamble and wait in traffic", "Take another road"), "color": ("blue", "red")}
         ]
         self.rects = [
             (pygame.Rect(self.x/10, self.y/4, self.x/3, self.x/3), pygame.Rect(6*self.x/10, self.y/4, self.x/3, self.x/3))
@@ -76,7 +74,6 @@ class Game:
                 #Picks Start Driving
             else:
                 self.count += 1
-                self.additioner += 5
                 #Picks Refuel
             self.turn_count += 1
         if index == 1:
@@ -92,9 +89,7 @@ class Game:
         if index == 2:
             if subindex == 0:
                 self.count += 1
-                self.turn_count += 5
-                self.multiplier += 0.5
-                #print(self.multiplier)
+                self.turn_count += 25
                 #Picks Rest at Rest Area
             else:
                 self.count += 55
@@ -105,8 +100,7 @@ class Game:
                 roll = random.randrange(1, 10)
                 #print(roll)
                 if roll > 5:
-                    self.count += 50
-                    self.multiplier += 0.5
+                    self.count += 75
                     self.turn_count += 1
                     self.risk_result("Success")
                 else:
@@ -122,11 +116,17 @@ class Game:
             if subindex == 0:
                 self.count += 1
                 self.turn_count += 5
-                self.multiplier += 0.5
                 #Picks retrace steps
             else:
-                self.count += 75
-                self.turn_count += 1
+                roll = random.randrange(1, 10)
+                if roll > 5:
+                    self.count += 75
+                    self.turn_count += 1
+                    self.risk_result("Success")
+                else:
+                    self.count += 1
+                    self.turn_count += 7
+                    self.risk_result("Failure")
                 #Picks Follow your gut
         if index == 5:
             #Flattire
@@ -142,16 +142,19 @@ class Game:
         if index == 6:
             if subindex == 0:
                 roll = random.randrange(1, 10)
-                print(roll)
                 if roll > 5:
-                    self.count += 50
-                    self.multiplier += 0.5
+                    self.count += 75
                     self.turn_count += 1
                     self.risk_result("Success")
-            else:
+                else:
                     self.count += 1
                     self.turn_count += 7
                     self.risk_result("Failure")
+                #Wait in traffic
+            else:
+                self.count += 1
+                self.turn_count += 4
+                #Take another road
                 
     def risk_result(self, choice_result):
         #print("Goes to this screen")
@@ -159,7 +162,7 @@ class Game:
         text_choice_result = self.font.render(f"Risk: {choice_result}", True, "black" if choice_result == "Success" else "red")
         self.screen.blit(text_choice_result, (self.x/2, self.y/2))
         if choice_result == "Success":
-            text_choice_result_effects = self.font.render("Multiplier + 0.5 and Score + 50", True, "black")
+            text_choice_result_effects = self.font.render("Score + 75", True, "black")
             self.screen.blit(text_choice_result_effects, (self.x/2, self.y/2 + 40))
         else:
             text_choice_result_effects = self.font.render("Turn Count + 7", True, "black")

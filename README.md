@@ -11,7 +11,7 @@
 
 ## Project Description
 
-*** I want to create a 2D Game of Life board game where the user moves a character around a board and interacts with random events based on where they land and the amount of money they made will display at the end as the player's score.
+*** I want to create a game similar to Oregon Trail where the player is trying to reach a destination and at certain locations,the player will encounter different options that will impact their progress. Some choices can impact future choices and some choices are randomized and based on luck. 
 
 ## GUI Design
 
@@ -21,7 +21,7 @@
 
 ### Final Design
 
-![final gui](assets/finalgui.jpg)
+![final gui](assets/finalgui.png)
 
 ## Program Design
 

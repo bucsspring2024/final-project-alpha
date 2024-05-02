@@ -45,10 +45,8 @@ class Initialize():
     def draw_scoreboard(self):
         text_surface = self.font.render("Score: " + str(self.game.count), True, "black")
         self.screen.blit(text_surface, (self.x - self.radius - 35, 0))
-        text_2surface = self.font.render("Score Multiplier: " + str(self.game.multiplier), True, "black")
-        self.screen.blit(text_2surface, (self.x - self.radius - 155, 20))
         text_4surface = self.font.render("Turn Count: " + str(self.game.turn_count), True, "black")
-        self.screen.blit(text_4surface, (self.x - self.radius - 100, 40))
+        self.screen.blit(text_4surface, (self.x - self.radius - 100, 20))
     
     def is_within_circle(self, pos):
         dx = pos[0] - self.circle_center[0]
@@ -116,7 +114,6 @@ class Initialize():
                             self.state = "remenu"
                             #print("reached remenu")
                         i += 1
-                        self.game.count *= self.game.multiplier
     
     def update(self, events):
         #print("Updating screen...") debug statement
