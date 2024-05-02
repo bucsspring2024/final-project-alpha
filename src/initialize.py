@@ -47,10 +47,8 @@ class Initialize():
         self.screen.blit(text_surface, (self.x - self.radius - 35, 0))
         text_2surface = self.font.render("Score Multiplier: " + str(self.game.multiplier), True, "black")
         self.screen.blit(text_2surface, (self.x - self.radius - 155, 20))
-        text_3surface = self.font.render("Score Additioner: " + str(self.game.additioner), True, "black")
-        self.screen.blit(text_3surface, (self.x - self.radius - 170, 40))
         text_4surface = self.font.render("Turn Count: " + str(self.game.turn_count), True, "black")
-        self.screen.blit(text_4surface, (self.x - self.radius - 100, 60))
+        self.screen.blit(text_4surface, (self.x - self.radius - 100, 40))
     
     def is_within_circle(self, pos):
         dx = pos[0] - self.circle_center[0]
@@ -66,9 +64,9 @@ class Initialize():
                     i = 0
                     while i < roll_num:
                         #print(self.game.count) #debug
-                        print(f"Before Update: {self.game.count}")
+                        #print(f"Before Update: {self.game.count}")
                         self.game.count = self.game.count + 1 
-                        print(f"After Update: {self.game.count}")
+                        #print(f"After Update: {self.game.count}")
                         self.old_count = self.game.count
                         self.waiting_for_click = False
                         #print(self.game.count)
@@ -100,11 +98,25 @@ class Initialize():
                                 self.game.update_screen(4)
                                 self.waiting_for_click = True
                                 break  # Break out of the while loop to wait for a click
+                        elif self.old_count == 600:
+                            if not self.waiting_for_click:
+                                #print("Reached 500, waiting for user click to continue...")
+                                self.state = "special_ui"
+                                self.game.update_screen(5)
+                                self.waiting_for_click = True
+                                break  # Break out of the while loop to wait for a click
+                        elif self.old_count == 750:
+                            if not self.waiting_for_click:
+                                #print("Reached 500, waiting for user click to continue...")
+                                self.state = "special_ui"
+                                self.game.update_screen(6)
+                                self.waiting_for_click = True
+                                break  # Break out of the while loop to wait for a click
                         elif self.old_count == 900:
                             self.state = "remenu"
                             #print("reached remenu")
                         i += 1
-                        self.game.count += self.game.additioner
+                        self.game.count *= self.game.multiplier
     
     def update(self, events):
         #print("Updating screen...") debug statement
@@ -133,6 +145,14 @@ class Initialize():
                     self.state = "special_ui"
                     self.game.update_screen(4)
                     self.game.index = 4
+                elif self.game.count == 600:
+                    self.state = "special_ui"
+                    self.game.update_screen(5)
+                    self.game.index = 5
+                elif self.game.count == 750:
+                    self.state = "special_ui"
+                    self.game.update_screen(6)
+                    self.game.index = 6
                 else:
                     self.screen.fill("white")
                     self.player.move_right(self.game.count) 

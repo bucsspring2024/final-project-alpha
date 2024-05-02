@@ -35,13 +35,14 @@
 
 ### Classes
 
-- << You should have a list of each of your classes with a description >>
+- 
 
     Controller:
+        The Controller class is responsible for the main looping of the game and to control the menu. This class defines when the game state is in menu or game. If the game state is menu, this class will draw a menu that allows the user to continue the game or stop the game. When the game state is in game, this class updates the events and class on other classes to handle events based on the game events. 
 - 
 
     Initialize:
-        The Initialize class creates the screen and the objects on the screen such as the scoreboard, the wheel, and the player icon. This class also controls the score count when the user clicks on 
+        The Initialize class creates the screen and the objects on the screen such as the scoreboard, the wheel, and the player icon. This class also controls the score count when the user clicks on the roll circle. At specific score counts, this class will call on the game class to perform functions. After the game class changes the game state to game, the Initialize class will continue the game and continuously redrawing the screen so that the game functions properly. 
 - 
 
     Game:
