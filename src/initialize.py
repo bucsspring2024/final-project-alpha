@@ -44,8 +44,12 @@ class Initialize():
     def draw_scoreboard(self):
         text_surface = self.font.render("Score: " + str(self.game.count), True, "black")
         self.screen.blit(text_surface, (self.x - self.radius - 35, 0))
-        text_2surface = self.font.render("Turn Count: " + str(self.game.turn_count), True, "black")
-        self.screen.blit(text_2surface, (self.x - self.radius - 100, 20))
+        text_2surface = self.font.render("Score Multiplier: " + str(self.game.multiplier), True, "black")
+        self.screen.blit(text_2surface, (self.x - self.radius - 155, 20))
+        text_3surface = self.font.render("Score Additioner: " + str(self.game.additioner), True, "black")
+        self.screen.blit(text_3surface, (self.x - self.radius - 170, 40))
+        text_4surface = self.font.render("Turn Count: " + str(self.game.turn_count), True, "black")
+        self.screen.blit(text_4surface, (self.x - self.radius - 100, 60))
     
     def is_within_circle(self, pos):
         dx = pos[0] - self.circle_center[0]
@@ -71,21 +75,21 @@ class Initialize():
                             if not self.waiting_for_click:
                                 #print("Reached 50, waiting for user click to continue...")
                                 self.state = "special_ui"
-                                self.game.second_update(events)
+                                self.game.second_update()
                                 self.waiting_for_click = True
                                 break  # Break out of the while loop to wait for a click
                         if self.old_count == 150:
                             if not self.waiting_for_click:
                                 #print("Reached 150, waiting for user click to continue...")
                                 self.state = "special_ui"
-                                self.game.second_update(events)
+                                self.game.third_update()
                                 self.waiting_for_click = True
                                 break  # Break out of the while loop to wait for a click
                         if self.old_count <= 400 <= self.game.count:
                             if not self.waiting_for_click:
                                 #print("Reached 500, waiting for user click to continue...")
                                 self.state = "special_ui"
-                                self.game.second_update(events)
+                                self.game.fourth_update()
                                 self.waiting_for_click = True
                                 break  # Break out of the while loop to wait for a click
                         elif self.game.count >= self.x-10:
@@ -109,16 +113,16 @@ class Initialize():
                 #print(self.game.count)
                 if self.game.count == 0:  
                     self.state = "special_ui"
-                    self.game.first_update(events)
+                    self.game.first_update()
                 elif self.game.count == 50:
                     self.state = "special_ui"
-                    self.game.second_update(events)
+                    self.game.second_update()
                 elif self.game.count == 150:
                     self.state = "special_ui"
-                    self.game.third_update(events)
+                    self.game.third_update()
                 elif self.game.count == 400:
                     self.state = "special_ui"
-                    self.game.fourth_update(events)
+                    self.game.fourth_update()
                 else:
                     self.screen.fill("white")
                     self.player.move_right(self.game.count) 

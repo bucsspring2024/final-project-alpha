@@ -100,39 +100,33 @@ class Game:
         text_instruct = self.font.render("Choose one", True, "white")
         self.screen.blit(text_instruct, ((self.text_x_one+self.text_x_two)/2, self.y/6))
         
-    def first_update(self, events):
+    def first_update(self):
         #print(f"Running first_update with count: {self.count}")  # Debug
         self.screen.fill("green")
         self.choice_one()
         #self.special_handle_events(events)
         #pygame.display.flip()
     
-    def second_update(self, events):
-        print(f"Running second_update with count: {self.count}")  # Debug
+    def second_update(self):
+        #print(f"Running second_update with count: {self.count}")  # Debug
         self.screen.fill("green")
         self.choice_two()
         
-    def third_update(self, events):
+    def third_update(self):
         self.screen.fill("green")
         self.choice_three()
-        pygame.display.flip()
-        self.special_handle_events(events)
     
-    def fourth_update(self, events):
+    def fourth_update(self):
         self.screen.fill("green")
         self.choice_four()
-        pygame.display.flip()
-        self.special_handle_events(events)
     
-    def fifth_update(self, events):
+    def fifth_update(self):
         self.screen.fill("green")
         self.choice_five()
-        pygame.display.flip()
-        self.special_handle_events(events)
         
     def perform_action_1_1(self):
-        self.count += 5
-        self.turn_count += 0
+        self.count += 15
+        self.turn_count += 1
         # Clicking Start Driving
 
     def perform_action_1_2(self):
@@ -141,18 +135,18 @@ class Game:
         # Clicking Refuel
         
     def perform_action_2_1(self):
-        self.count += 5
+        self.count += 10
         self.turn_count += 2
-        self.click_check = True
+        #self.click_check = True
         #print (self.count)
         #print(self.turn_count)
         #print(self.click_check)
         # Clicking Spare Tire
 
     def perform_action_2_2(self):
-        self.count += 1
+        self.count += 10
         self.turn_count += 1
-        self.click_check = True
+        #self.click_check = True
         # Clicking Food
         
     def perform_action_3_1(self):
@@ -215,23 +209,23 @@ class Game:
                 elif self.box_1_2.collidepoint(event.pos): 
                     #print("Box Two Clicked") #Debug
                     self.perform_action_1_2()
-                # if self.box_2_1.collidepoint(event.pos):
-                #     print("Box One Clicked") #Debug
-                #     self.perform_action_2_1()
-                # elif self.box_2_2.collidepoint(event.pos): 
-                #     print("Box Two Clicked") #Debug
-                #     self.perform_action_2_2()
-                # if self.box_3_1.collidepoint(event.pos):
-                #     #print("Box One Clicked") #Debug
-                #     self.perform_action_3_1()
-                # elif self.box_3_2.collidepoint(event.pos): 
-                #     #print("Box Two Clicked") #Debug
-                #     self.perform_action_3_2()
-                # if self.box_4_1.collidepoint(event.pos):
-                #     #print("Box One Clicked") #Debug
-                #     self.perform_action_4_1()
-                # elif self.box_4_2.collidepoint(event.pos): 
-                #     #print("Box Two Clicked") #Debug
-                #     self.perform_action_4_2()
+                elif self.box_2_1.collidepoint(event.pos):
+                    #print("Box One Clicked") #Debug
+                    self.perform_action_2_1()
+                elif self.box_2_2.collidepoint(event.pos): 
+                    #print("Box Two Clicked") #Debug
+                    self.perform_action_2_2()
+                elif self.box_3_1.collidepoint(event.pos):
+                    #print("Box One Clicked") #Debug
+                    self.perform_action_3_1()
+                elif self.box_3_2.collidepoint(event.pos): 
+                    #print("Box Two Clicked") #Debug
+                    self.perform_action_3_2()
+                elif self.box_4_1.collidepoint(event.pos):
+                    #print("Box One Clicked") #Debug
+                    self.perform_action_4_1()
+                elif self.box_4_2.collidepoint(event.pos): 
+                    #print("Box Two Clicked") #Debug
+                    self.perform_action_4_2()
                 
                     
