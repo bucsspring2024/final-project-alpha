@@ -1,17 +1,15 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-718a45dd9cf7e7f842a935f5ebbe5719a5e09af4491e668f4dbf3b35d5cca122.svg)](https://classroom.github.com/online_ide?assignment_repo_id=14588397&assignment_repo_type=AssignmentRepo)
 
-:warning: Everything between << >> needs to be replaced (remove << >> after replacing)
-
 # The Road Trip
 ## CS110 Final Project   Spring, 2024 
 
 ## Team Members
 
-*** Jeremy Luk
+Jeremy Luk
 
 ## Project Description
 
-*** I want to create a game similar to Oregon Trail where the player is trying to reach a destination and at certain locations,the player will encounter different options that will impact their progress. Some choices can impact future choices and some choices are randomized and based on luck. 
+I want to create a game similar to Oregon Trail where the player is trying to reach a destination and at certain locations,the player will encounter different options that will impact their progress. Some choices can impact future choices and some choices are randomized and based on luck. 
 
 ## GUI Design
 
