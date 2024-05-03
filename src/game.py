@@ -13,6 +13,11 @@ class Game:
         self.Tire = False
         
     def setup_choices(self):
+        '''
+        Arg: self
+        Defines the lists and variables to be used in other functions.
+        Return: None
+        '''
         self.x = self.screen.get_width()
         self.y = self.screen.get_height()
         self.choices = [
@@ -39,6 +44,13 @@ class Game:
         ]
     
     def draw_choice(self, index):
+        '''
+        Arg: self, index
+        Chooses the text and context bits from the lists created in setup_choices based on index. This function
+        displays the context string in the middle of the screen and draws rectangles on each side of the
+        screen with the corresponding text from the list. If index is equal to 5, inventory_tire function is called.
+        Return: None
+        '''
         choice_context = self.choice_context[index]
         choice = self.choices[index]
         rects = self.rects[index]
@@ -60,14 +72,24 @@ class Game:
             
             
     def update_screen(self, index):
+        '''
+        Arg: self, index (int)
+        Defines index to be the value of self.index and draws a green screen which then calls 
+        on the function, self.draw_choice with parameter index.
+        Return: None
+        '''
         index = self.index
-        #print(index)
-        #print(self.index)
         self.screen.fill("green")
         self.draw_choice(index)
         
     def perform_action(self, index, subindex):
-        #print(f"This is the {index}")
+        '''
+        Arg: self, index (int), subindex (int)
+        This function checks for entries of index and subindex. Corresponding
+        index and subindex integers will perform different results depending on which 
+        combination of integers is used.
+        Return: None
+        '''
         if index == 0:
             if subindex == 0:
                 self.count += 15
@@ -98,7 +120,6 @@ class Game:
         if index == 3:
             if subindex == 0:
                 roll = random.randrange(1, 10)
-                #print(roll)
                 if roll > 5:
                     self.count += 75
                     self.turn_count += 1
@@ -157,7 +178,13 @@ class Game:
                 #Take another road
                 
     def risk_result(self, choice_result):
-        #print("Goes to this screen")
+        '''
+        Arg: self, choice_result(str)
+        Fills the screen color with aqua and displays text depending on the argument, choice_result, given.
+        If "Success" was given, the screen will dislay Score + 75, but if "Failure" was given,
+        Turn Count + 7 will be displayed. 
+        Return: None
+        '''
         self.screen.fill("aqua")
         text_choice_result = self.font.render(f"Risk: {choice_result}", True, "black" if choice_result == "Success" else "red")
         self.screen.blit(text_choice_result, (self.x/2, self.y/2))
@@ -171,12 +198,22 @@ class Game:
         pygame.time.wait(1000)
         
     def inventory_tire(self):
+        '''
+        Arg: self
+        Displays the text, tire in inventory (False or True) at the x and y coordinates defined in the function
+        Return: None
+        '''
         tire_text = self.font.render(f"Tire in inventory: {self.Tire}", True, "black")
         tire_text_x = (self.screen.get_width() - tire_text.get_width()) // 2
         tire_text_y = self.y / 10 - 30
         self.screen.blit(tire_text, (tire_text_x,tire_text_y))
     
     def no_tire(self):
+        '''
+        Arg: self
+        Sets the screen color to aqua and displays text in the center of the screen and flips the screen
+        Return: None
+        '''
         self.screen.fill("aqua")
         text_tire = self.font.render(f"You do not have a spare tire", True, "black")
         self.screen.blit(text_tire, (self.x/2, self.y/2))
@@ -184,20 +221,19 @@ class Game:
         pygame.time.wait(1000)
     
     def special_handle_events(self, events):
-        #print(f"Handling events with current rects: {self.rects}")
+        '''
+        Arg: self, events
+        Detects a user click on the screen. If the user clicks on the rectangle on the left, perform_action will execute
+        with parameters, self.index and 0. A click on the right rectangle will execute perform_action with self.index and 1.
+        Return: None
+        '''
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for i, (rect1, rect2) in enumerate(self.rects):
                     if rect1.collidepoint(event.pos):
-                        #print(f"Mouse clicked on choice 0 of {index}")
                         self.perform_action(self.index, 0)
-                        #print("funky")
-                        #print("performed action 1")
                         break
                     elif rect2.collidepoint(event.pos):
-                        #print(f"Mouse clicked on choice 0 of {index}")
                         self.perform_action(self.index, 1)
-                        #print("pop")
-                        #print("performed action 2")
                         break
                     

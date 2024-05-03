@@ -18,39 +18,68 @@ class Controller:
         
     
     def start_game(self):
+        '''
+        Arg: self
+        Changes game state to "game" and calls the Initialize class
+        Return: None
+        '''
         self.state = "game" 
         self.game = Initialize(self.screen) 
         
     def quit_game(self):
+        '''
+        Arg: self
+        Sets self.running to False
+        Return: None
+        '''
         self.running = False  
         
     def update_button_text(self, new_label, new_action):
+        '''
+        Arg: self, new_label (str), new_action (function)
+        Replaces the button with the new_label that performs the function of new_action
+        Return: None
+        '''
         self.start_button.set_title(new_label)
         self.start_button.update_callback(new_action)
         
     def mainloop(self):
-      while self.running:
-            #print(self.state)
+        '''
+        Arg: self
+        Calls on loop functions based on what the game state is
+        Return: None
+        '''
+        while self.running:
             if self.state == "menu":
                 self.menuloop()
             elif self.state == "game":
                 self.gameloop()  
     
     def menuloop(self):
+        '''
+        Arg: self
+        Initiates the menu when game state is in menu and either quits the program or draws the menu
+        Return: None
+        '''
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
                 self.running = False  # Exit the entire program
             #event loop
         if self.menu.is_enabled():
-            #saved list of events from the event loop above
-            #update data
             self.menu.update(events)
             self.menu.draw(self.screen)
         #redraw
         pygame.display.update()    
       
     def gameloop(self):
+        '''
+        Arg: self
+        Controls the various sub game states and intiates events based on the states.
+        The gameloop can quit the game, update events, trigger different handle events, or
+        changes the game state back to menu.
+        Return: None
+        '''
         game_running = True
         while self.running and game_running:
             events = pygame.event.get()
@@ -59,35 +88,29 @@ class Controller:
                     self.running = False
             #update data
             if self.game.state == "game":
-                #print("update")
                 self.game.update(events)
                 self.game.handle_events(events)
-                #print(self.game.remenu)
-                # if self.game.remenu == True:
-                #     #print("works")
-                #     self.state = "menu"
-                #     self.setup_game_over_menu()
-                    #print("Setup game over menu executed")
             if self.game.state == "special_ui":  
                 self.game.game.special_handle_events(events)
                 self.game.state = "game"
             if self.game.state == "remenu":
                 self.state = "menu"
                 game_running = False
-                #print("state changed to menu")
                 self.game.update(events)
                 self.setup_game_over_menu()
         #redraw
         pygame.display.flip() 
             
     def setup_game_over_menu(self):
-        #print("Setting up game over menu"
-        #self.game.state = "menu"
+        '''
+        Arg: self
+        Redraws the menu and replaces the button to play again and adds the label of turns taken
+        Return: None
+        '''
         self.menu = pygame_menu.Menu('Game Over', self.x/2, self.y/2, theme=pygame_menu.themes.THEME_BLUE)
         self.menu.add.label(f"Turns Taken: {self.game.game.turn_count}", max_char=-1, font_size=24)
         self.start_button = self.menu.add.button("Play", self.start_game)
         self.quit_button = self.menu.add.button("Quit", self.quit_game)
         self.update_button_text("Play Again", self.start_game)
-        #self.menu.draw(self.screen)
-        #print(f"Current state: {self.state}")
+
 

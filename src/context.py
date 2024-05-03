@@ -23,6 +23,12 @@ class Context:
             self.list.append(surface)
         
     def display_text(self):
+        '''
+        Arg: self
+        Creates an orange screen and displays the text defined in __init__ in black. Then
+        the function draws a purple rectangle at the bottom left of the screen and defined text in the middle of the rectangle.
+        Return: None
+        '''
         intro_y = 50
         self.screen.fill("orange")
         for surface in self.list:
@@ -34,6 +40,12 @@ class Context:
         pygame.draw.rect(self.screen, "magenta", self.box, width=3)
     
     def handle_events(self, events):
+        '''
+        Arg: self, events
+        Checks for a user event, click, and checks if the click is within the rectangle created in display_text function.
+        If the click is within the rectangle, self.click turns to True
+        Return: True
+        '''
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 #print("Handle)")

@@ -4,7 +4,6 @@ from src.controller import Controller
 
 def main():
     pygame.init()
-    
     #Create an instance on your controller object
     app = Controller()
     #Call your mainloop
