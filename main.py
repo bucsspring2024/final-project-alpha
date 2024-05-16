@@ -1,10 +1,13 @@
 import pygame
+from src.controller import Controller
 #import your controller
 
 def main():
     pygame.init()
     #Create an instance on your controller object
+    app = Controller()
     #Call your mainloop
+    app.mainloop()
     
     ###### NOTHING ELSE SHOULD GO IN main(), JUST THE ABOVE 3 LINES OF CODE ######
 
